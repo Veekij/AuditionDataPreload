@@ -33,10 +33,6 @@
               "EditorCaption": " - VS_VERSION_INFO - Version"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "AuDataPreload.cpp",
@@ -46,8 +42,7 @@
               "RelativeToolTip": "AuDataPreload\\AuDataPreload.cpp",
               "ViewState": "AgIAAOQAAAAAAAAAAAAAAPMAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-09-17T05:08:59.726Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-17T05:08:59.726Z"
             }
           ]
         }
