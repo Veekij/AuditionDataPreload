@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="AuDataPreload/AuDataPreload.vcxproj" Id="c839a20a-87a9-4ff4-a718-32889090b2f5" />
+</Solution>
