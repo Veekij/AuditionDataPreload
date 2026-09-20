@@ -357,21 +357,27 @@ int PreloadGameResources(LPCWSTR gamePath = nullptr)
 
     if (error == ERROR_SUCCESS)
     {
-        WCHAR szPath[260]{}, szCurrentDir[260]{};
-        GetCurrentDirectory(260, szCurrentDir);
-        swprintf_s(szPath, __crt_countof(szPath), L"%s\\TAC2Loader.exe", szCurrentDir);
-        DWORD attributes = GetFileAttributes(szPath);
-        if (attributes != INVALID_FILE_ATTRIBUTES && (attributes & FILE_ATTRIBUTE_DIRECTORY) == false)
+        if (FindWindow(L"DLightClass", nullptr) == NULL)
         {
-            STARTUPINFO lpStartupInfo;
-            ZeroMemory(&lpStartupInfo, sizeof(STARTUPINFO));
-            lpStartupInfo.cb = sizeof(STARTUPINFO);
-            PROCESS_INFORMATION lpProcessInformation;
-            ZeroMemory(&lpProcessInformation, sizeof(PROCESS_INFORMATION));
-            if (CreateProcess(NULL, szPath, NULL, NULL, TRUE, NULL, NULL, szCurrentDir, &lpStartupInfo, &lpProcessInformation))
+            if (MessageBox(GetForegroundWindow(), L"Would you like to launch the game with TAC2?", L"Message", MB_ICONINFORMATION | MB_YESNO) == IDYES)
             {
-                CloseHandle(lpProcessInformation.hProcess);
-                CloseHandle(lpProcessInformation.hThread);
+                WCHAR szPath[260]{}, szCurrentDir[260]{};
+                GetCurrentDirectory(260, szCurrentDir);
+                swprintf_s(szPath, __crt_countof(szPath), L"%s\\TAC2Loader.exe", szCurrentDir);
+                DWORD attributes = GetFileAttributes(szPath);
+                if (attributes != INVALID_FILE_ATTRIBUTES && (attributes & FILE_ATTRIBUTE_DIRECTORY) == false)
+                {
+                    STARTUPINFO lpStartupInfo;
+                    ZeroMemory(&lpStartupInfo, sizeof(STARTUPINFO));
+                    lpStartupInfo.cb = sizeof(STARTUPINFO);
+                    PROCESS_INFORMATION lpProcessInformation;
+                    ZeroMemory(&lpProcessInformation, sizeof(PROCESS_INFORMATION));
+                    if (CreateProcess(NULL, szPath, NULL, NULL, TRUE, NULL, NULL, szCurrentDir, &lpStartupInfo, &lpProcessInformation))
+                    {
+                        CloseHandle(lpProcessInformation.hProcess);
+                        CloseHandle(lpProcessInformation.hThread);
+                    }
+                }
             }
         }
     }
@@ -406,7 +412,6 @@ BOOL SetSeDebugPrivilege(LPCSTR lpPrivilegeName)
             else
             {
                 blResult = TRUE;
-                printf("SetSeDebugPrivilege Success\n");
             }
         }
         CloseHandle(hToken);
