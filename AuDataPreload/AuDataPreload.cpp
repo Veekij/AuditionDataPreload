@@ -354,7 +354,28 @@ int PreloadGameResources(LPCWSTR gamePath = nullptr)
         HeapFree(heap, 0, first);
         first = next;
     }
-    if (error != ERROR_SUCCESS)
+
+    if (error == ERROR_SUCCESS)
+    {
+        WCHAR szPath[260]{}, szCurrentDir[260]{};
+        GetCurrentDirectory(260, szCurrentDir);
+        swprintf_s(szPath, __crt_countof(szPath), L"%s\\TAC2Loader.exe", szCurrentDir);
+        DWORD attributes = GetFileAttributes(szPath);
+        if (attributes != INVALID_FILE_ATTRIBUTES && (attributes & FILE_ATTRIBUTE_DIRECTORY) == false)
+        {
+            STARTUPINFO lpStartupInfo;
+            ZeroMemory(&lpStartupInfo, sizeof(STARTUPINFO));
+            lpStartupInfo.cb = sizeof(STARTUPINFO);
+            PROCESS_INFORMATION lpProcessInformation;
+            ZeroMemory(&lpProcessInformation, sizeof(PROCESS_INFORMATION));
+            if (CreateProcess(NULL, szPath, NULL, NULL, TRUE, NULL, NULL, szCurrentDir, &lpStartupInfo, &lpProcessInformation))
+            {
+                CloseHandle(lpProcessInformation.hProcess);
+                CloseHandle(lpProcessInformation.hThread);
+            }
+        }
+    }
+    else
         printf("\nFinished with Win32 error: %lu\n", error);
     return error == ERROR_SUCCESS ? 0 : 1;
 }
