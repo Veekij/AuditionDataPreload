@@ -359,13 +359,13 @@ int PreloadGameResources(LPCWSTR gamePath = nullptr)
     {
         if (FindWindow(L"DLightClass", nullptr) == NULL)
         {
-            if (MessageBox(GetForegroundWindow(), L"Would you like to launch the game with TAC2?", L"Message", MB_ICONINFORMATION | MB_YESNO) == IDYES)
+            WCHAR szPath[260]{}, szCurrentDir[260]{};
+            GetCurrentDirectory(260, szCurrentDir);
+            swprintf_s(szPath, __crt_countof(szPath), L"%s\\TAC2Loader.exe", szCurrentDir);
+            DWORD attributes = GetFileAttributes(szPath);
+            if (attributes != INVALID_FILE_ATTRIBUTES && (attributes & FILE_ATTRIBUTE_DIRECTORY) == false)
             {
-                WCHAR szPath[260]{}, szCurrentDir[260]{};
-                GetCurrentDirectory(260, szCurrentDir);
-                swprintf_s(szPath, __crt_countof(szPath), L"%s\\TAC2Loader.exe", szCurrentDir);
-                DWORD attributes = GetFileAttributes(szPath);
-                if (attributes != INVALID_FILE_ATTRIBUTES && (attributes & FILE_ATTRIBUTE_DIRECTORY) == false)
+                if (MessageBox(GetForegroundWindow(), L"Would you like to launch the game with TAC2?", L"Message", MB_ICONINFORMATION | MB_YESNO) == IDYES)
                 {
                     STARTUPINFO lpStartupInfo;
                     ZeroMemory(&lpStartupInfo, sizeof(STARTUPINFO));
